@@ -1,0 +1,32 @@
+button {
+  cursor: pointer;
+  width: 85px;
+  padding: 10px 15px;
+  color: white;
+  font-size: 12px;
+  transition: all 0.4s ease-in-out;
+}
+
+button:hover {
+  box-shadow: inset 0 0 0 5px #ffffff;
+}
+
+.add {
+  background-color: #df840d;
+}
+
+.delete-all {
+  background-color: #c00000;
+}
+
+.delete {
+  background-color: #c00000;
+}
+
+.checked {
+  background-color: #5e3e05;
+}
+.checker {
+  background-color: #df840d;
+}
+

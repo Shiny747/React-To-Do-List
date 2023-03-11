@@ -1,0 +1,90 @@
+*,
+*:before,
+*:after {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  border: none;
+}
+body {
+  height: 100vh;
+  background: #382200;
+}
+
+.App {
+  width: 50%;
+  min-width: 450px;
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 30px;
+  padding: 30px 40px;
+  height: max-content;
+}
+.todo-actions {
+  display: flex;
+  align-items: center;
+  justify-content:space-between;
+  background-color: #ffffffe5;
+  column-gap: 10px;
+  padding: 30px 20px;
+  border-radius: 5px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+.todo-actions > .input-text {
+  width: 100%;
+  height: 45px;
+  font-family: "Poppins", sans-serif;
+  font-size: 15px;
+  border: 2px solid #d1d3d4;
+  padding: 12px;
+  color: #111111;
+  font-weight: 500;
+  position: relative;
+  border-radius: 5px;
+}
+.todo-actions > .input-text:focus {
+  outline: none;
+  border-color: #ee9b00;
+}
+
+.tasks{
+  display: grid;
+  align-items: center;
+  width: 100%;
+  gap: 10px;
+}
+
+.task{
+  background-color: #ffffffe5;
+  text-align: center;
+  cursor: pointer;
+  font-family: 'Poppins',sans-serif;
+  font-size: 25px;
+  font-weight: 400;
+  padding: 30px 20px;
+  margin-top: 60px;
+  border-radius: 10px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.list-item{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.buttons{
+  display: flex;
+  justify-content: space-between;
+  width: 180px;
+  gap: 10px;
+}
+.App>h1 {
+  text-align: center;
+  margin: 10px;
+  color: #ffffff;
+  font-size: clamp(1rem, 4vw, 2rem);
+}
