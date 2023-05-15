@@ -4,6 +4,9 @@ import { Button } from "./components/Button/Button";
 import { Toggle } from "./components/Toggle/Toggle";
 import { nanoid } from "nanoid";
 
+import { setLocalStorage } from "./utils/setLocalStorage";
+import { getLocalStorage } from "./utils/getLocalStorage";
+
 import "./App.css";
 
 export function App() {
@@ -14,13 +17,10 @@ export function App() {
   const [searchTasks, setSearchTasks] = useState([]);
 
   useEffect(() => {
-    const localTask = localStorage.getItem("task");
-    if (localTask) {
-      const parsed = JSON.parse(localTask);
-      setTasks(parsed);
-    } else {
-      localStorage.setItem("task", JSON.stringify([]));
-    }
+    const localTask = getLocalStorage("tasks");
+
+    if (localTask) setTasks(localTask);
+    else setLocalStorage("tasks", tasks);
   }, []);
 
   function handleChangeEnter({ key }) {
@@ -39,22 +39,33 @@ export function App() {
         id: nanoid(),
         text: inputText,
         checked: false,
+        deleted: false,
       };
-      setTasks([...tasks, newTask]);
-      localStorage.setItem("task", JSON.stringify([...tasks, newTask]));
+      const updateTasks = [...tasks, newTask];
+      setLocalStorage("tasks", updateTasks);
+      setTasks(updateTasks);
       setInputText("");
-    } else{
-      alert('No Task!')
+    } else {
+      alert("No Task!");
     }
   };
 
   const handleDelete = (taskIndex) => {
-    const filteredTasks = tasks.filter((task) => {
-      if (taskIndex !== task.id) return task;
+    const filteredTasks = tasks.map((task) => {
+      if (taskIndex === task.id) {
+        task.deleted = true;
+        return task;
+      }
+      return task;
     });
     setTasks(filteredTasks);
-    setSearchTasks(filteredTasks);
-    localStorage.setItem("task", JSON.stringify(filteredTasks));
+    setTimeout(() => {
+      const cleanedArray = tasks.filter((task) => {
+        if (!task.deleted) return task;
+      });
+      setTasks(cleanedArray);
+      setLocalStorage("tasks", cleanedArray);
+    }, 1000);
   };
 
   const handleCheck = (taskIndex) => {
@@ -67,11 +78,11 @@ export function App() {
     });
     setTasks(checkedTasks);
     setSearchTasks(checkedTasks);
-    localStorage.setItem("task", JSON.stringify(checkedTasks));
+    setLocalStorage("task", checkedTasks);
   };
 
   const handleDeleteAll = () => {
-    localStorage.clear("task");
+    localStorage.clear("tasks");
     setTasks([]);
   };
 
@@ -121,35 +132,53 @@ export function App() {
       </div>
       <div className="task">
         <ol className="tasks">
-        {currentTasks.map((task, index) =>
-          task.checked ? (
-            <li className="list-item" key={task.id}>
-              <del>
+          {currentTasks.map((task, index) =>
+            task.checked ? (
+              <li
+                className={`list-item checked ${task.deleted && "delete-animation"}`}
+                key={task.id}
+              >
+                <span className="todo-title">
+                  {index + 1}. {task.text}
+                </span>
+                <div className="buttons">
+                  <Button
+                    onClick={() => handleCheck(task.id)}
+                    buttonType="checked"
+                  >
+                    Complete
+                  </Button>
+                  <Button
+                    onClick={() => handleDelete(task.id)}
+                    buttonType="delete"
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </li>
+            ) : (
+              <li
+                className={`list-item ${task.deleted && "delete-animation"}`}
+                key={task.id}
+              >
                 {index + 1}. {task.text}
-              </del>
-              <div className="buttons">
-              <Button onClick={() => handleCheck(task.id)} buttonType="checked">
-                Complete
-              </Button>
-              <Button onClick={() => handleDelete(task.id)} buttonType="delete">
-                Delete
-              </Button>
-              </div>
-            </li>
-          ) : (
-            <li className="list-item" key={task.id}>
-              {index + 1}. {task.text}
-              <div className="buttons">
-              <Button onClick={() => handleCheck(task.id)} buttonType="checker">
-                Ready?
-              </Button>
-              <Button onClick={() => handleDelete(task.id)} buttonType="delete">
-                Delete
-              </Button>
-              </div>
-            </li>
-          )
-        )}
+                <div className="buttons">
+                  <Button
+                    onClick={() => handleCheck(task.id)}
+                    buttonType="checker"
+                  >
+                    Ready?
+                  </Button>
+                  <Button
+                    onClick={() => handleDelete(task.id)}
+                    buttonType="delete"
+                  >
+                    Delete
+                  </Button>
+                </div>
+              </li>
+            )
+          )}
         </ol>
       </div>
     </div>

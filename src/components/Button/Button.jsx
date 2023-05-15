@@ -6,8 +6,8 @@ export function Button(props) {
       add: "add",
       deleteAll: "delete-all type1",
       delete: "delete",
-      checked: "checked",
-      checker: 'checker'
+      checked: "checked-btn",
+      checker: 'checker-btn'
     };
     return classNames[buttonType];
   };

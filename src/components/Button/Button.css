@@ -23,10 +23,10 @@ button:hover {
   background-color: #c00000;
 }
 
-.checked {
+.checked-btn {
   background-color: #5e3e05;
 }
-.checker {
+.checker-btn {
   background-color: #df840d;
 }
 
