@@ -12,7 +12,7 @@ import "./App.css";
 export function App() {
   const [inputText, setInputText] = useState("");
   const [searchText, setSearchText] = useState("");
-  const [inputMode, setInputMode] = useState("tasks"); //search \\ tasks
+  const [inputMode, setInputMode] = useState("tasks");
   const [tasks, setTasks] = useState([]);
   const [searchTasks, setSearchTasks] = useState([]);
 
@@ -111,7 +111,7 @@ export function App() {
     <div className="App">
       <h1>To Do List</h1>
       <div className="todo-actions">
-        <Toggle onClick={toggleSearch} label="Search" toggled={true} />
+        <Toggle onClick={toggleSearch} label="Search" toggled={false} />
         <input
           type="text"
           value={inputValue}
